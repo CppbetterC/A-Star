@@ -73,7 +73,7 @@ class AStar:
             quadrant = 4
         else:
             quadrant = -1
-            print('<---Quadrant Error--->')
+            # print('<---Quadrant Error--->')
         return quadrant
 
     def __concat_edges(self, edge, node):

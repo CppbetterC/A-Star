@@ -39,13 +39,13 @@ class Export:
         f.close()
 
     @staticmethod
-    def export_a_star(data, dtype, location):
+    def export_a_star(data, dtype, location, count):
         """
         Export the A* path
         :param data:
         :return:
         """
-        path_name = 'data/' + location + '/offline_a_star(' + dtype + ').txt'
+        path_name = 'data/' + location + '/offline_a_star(' + dtype + ')_'+str(count)+'.txt'
         path_name = os.path.join(os.path.dirname(__file__), path_name)
         with open(path_name, 'a+') as f:
             for path in data:

@@ -1,3 +1,4 @@
+import sys
 import multiprocessing as mp
 
 from AStar import AStar
@@ -23,6 +24,8 @@ def test(src, dst):
 
 def job(data, all_node, dtype, dlocation, ddimension, name):
     print('<---Processing ' + str(name) + ' start--->')
+    count = 0
+    byte_limit = 1024 * 1024
     full_path = []
     for src in data:
         for dst in all_node:
@@ -33,7 +36,13 @@ def job(data, all_node, dtype, dlocation, ddimension, name):
             if not bool(path):
                 continue
             full_path.append(tuple(path.id))
-        Export.export_a_star(full_path, dtype, dlocation)
+        # 輸出檔案，依檔案大小分檔案
+        if sys.getsizeof(full_path) >= byte_limit:
+            Export.export_a_star(full_path, dtype, dlocation, count)
+            count += 1
+            full_path = []
+        else:
+            continue
         print('<---Block', src, '--->')
     print('<---End with ' + str(name), '--->')
 
