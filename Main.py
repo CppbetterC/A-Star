@@ -1,4 +1,6 @@
 import sys
+import random
+import timeit
 import multiprocessing as mp
 
 from AStar import AStar
@@ -12,6 +14,13 @@ Enter the src and dst to get the different results
 
 
 def test(src, dst):
+    """
+    測試 A* 演算法
+    單起點，單終點
+    :param src: 起點節點名稱
+    :param dst: 終點節點名稱
+    :return: 路徑 ID
+    """
     algorithm = AStar(src, dst, dimension_type, location, dimension)
     path = algorithm.algorithm()
     if not bool(path):
@@ -23,12 +32,30 @@ def test(src, dst):
 
 
 def job(data, all_node, dtype, dlocation, ddimension, name):
+    """
+    多起點多終點的 A* 路徑查詢
+    # 加入只搜尋部分的條件
+    # 原始的查詢為 n**n 次
+    # 現在改為 n**50
+    # 並加入時間的條件，超過搜尋時間捨棄此查詢
+    :param data: 起點陣列
+    :param all_node:終點陣列
+    :param dtype: 維度條件(Distance, Time)
+    :param dlocation:城市名稱
+    :param ddimension:
+    :param name: 多線程的編號
+    :return:
+    """
     print('<---Processing ' + str(name) + ' start--->')
     count = 0
-    byte_limit = 1024 * 1024
+    byte_limit = 1024
     full_path = []
+
+    limited_number = 5
+    sub_all_node = random.sample(all_node, limited_number)
+
     for src in data:
-        for dst in all_node:
+        for dst in sub_all_node:
             if src == dst:
                 continue
             algorithm = AStar(src, dst, dtype, dlocation, ddimension)
@@ -36,6 +63,7 @@ def job(data, all_node, dtype, dlocation, ddimension, name):
             if not bool(path):
                 continue
             full_path.append(tuple(path.id))
+
         # 輸出檔案，依檔案大小分檔案
         if sys.getsizeof(full_path) >= byte_limit:
             Export.export_a_star(full_path, dtype, dlocation, count)
@@ -56,8 +84,8 @@ if __name__ == '__main__':
     """
     dimension = 2
 
-    # location = 'Oldenburg'
-    location = 'California'
+    location = 'Oldenburg'
+    # location = 'California'
     # location = 'North America'
 
     dimension_type = 'distance'
@@ -65,25 +93,34 @@ if __name__ == '__main__':
 
     org_node = LoadData.load_org_node(location)
     node = list(org_node.keys())
-    print(node)
+    print('終點數量', len(node))
 
     # data_set1, data_set2, data_set3, data_set4, data_set5, data_set6, \
     # data_set7, data_set8, data_set9, data_set10 = ([] for _ in range(10))
 
-    data_set1 = node[0:2000]
-    data_set2 = node[2000:4000]
-    data_set3 = node[4000: 6000]
-    data_set4 = node[6000: 8000]
-    data_set5 = node[8000: 10000]
-    data_set6 = node[10000: 12000]
-    data_set7 = node[12000: 14000]
-    data_set8 = node[14000: 16000]
-    data_set9 = node[16000: 18000]
-    data_set10 = node[18000::]
+    # 讀檔讀入未找到路徑的點
+
+    not_found = []
+    with open('data/Oldenburg/not_found(Distance).txt', 'r', encoding='utf-8') as file_handle:
+        for line in file_handle:
+            not_found.append(int(line.strip()))
+    # print(not_found)
+    print('起點數量', len(not_found))
+
+    data_set1 = node[0: 1000]
+    data_set2 = node[1000: 2000]
+    data_set3 = node[2000::]
+    # data_set4 = node[6000: 8000]
+    # data_set5 = node[8000: 10000]
+    # data_set6 = node[10000: 12000]
+    # data_set7 = node[12000: 14000]
+    # data_set8 = node[14000: 16000]
+    # data_set9 = node[16000: 18000]
+    # data_set10 = node[18000::]
 
     p1 = mp.Process(target=job, args=(data_set1, node, dimension_type, location, dimension, 1))
     p2 = mp.Process(target=job, args=(data_set2, node, dimension_type, location, dimension, 2))
-    # p3 = mp.Process(target=job, args=(data_set3, node, dimension_type, location, dimension, 3))
+    p3 = mp.Process(target=job, args=(data_set3, node, dimension_type, location, dimension, 3))
     # p4 = mp.Process(target=job, args=(data_set4, node, dimension_type, location, dimension, 4))
     # p5 = mp.Process(target=job, args=(data_set5, node, dimension_type, location, dimension, 5))
     # p6 = mp.Process(target=job, args=(data_set6, node, dimension_type, location, dimension, 6))
@@ -94,7 +131,7 @@ if __name__ == '__main__':
 
     p1.start()
     p2.start()
-    # p3.start()
+    p3.start()
     # p4.start()
     # p5.start()
     # p6.start()
@@ -105,7 +142,7 @@ if __name__ == '__main__':
 
     p1.join()
     p2.join()
-    # p3.join()
+    p3.join()
     # p4.join()
     # p5.join()
     # p6.join()

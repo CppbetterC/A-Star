@@ -1,3 +1,5 @@
+import datetime
+
 from LoadData import LoadData
 from Heap import Heap
 from Edges import Edges
@@ -27,10 +29,17 @@ class AStar:
     def algorithm(self):
         """
         Algorithm， 每次將維度數值最小的路徑去做延伸
+        設定查詢時間條件 180 秒
         :return:
         """
+        start_time = datetime.datetime.now()
         self.heap.insert(Edges((self.src,), 0, 0))
         while True:
+            end_time = datetime.datetime.now()
+            if (end_time - start_time).seconds >= 60:
+                # print('(', self.src, self.dst, ')搜尋時間超出3分鐘--->')
+                return []
+
             root = self.heap.extract_max()
             if not bool(root):
                 return []
