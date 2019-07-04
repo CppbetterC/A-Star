@@ -75,7 +75,7 @@ class Astar:
         result = euclidean_distances(data, data)
         header = [x for x in list(self.__org_node.keys())]
         pd_data = pd.DataFrame(result, columns=header)
-        print(pd_data.shape)
+        # print(pd_data.shape)
         return pd_data
 
     @staticmethod
