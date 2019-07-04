@@ -48,7 +48,7 @@ def job(data, all_node, name):
     city = 'California'
     # dimemsion = ["Distance", "Time"]
     dimension = "Distance"
-    adjacency_list = LoadData.load_linking_table(location)
+    adjacency_list = LoadData.load_linking_table(city)
     found_pair = LoadData.load_found_pair(city)
     count = 0
     byte_limit = 1024
