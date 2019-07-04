@@ -40,3 +40,13 @@ class LoadData:
                 element = make_tuple(line)
                 data[element[0]] = element[1]
         return data
+
+    @staticmethod
+    def load_found_pair(city):
+        path = 'data/' + city + '/FoundPair.txt'
+        data = []
+        with open(path, 'r', encoding='utf-8') as file_handle:
+            for line in file_handle:
+                element = make_tuple(line)
+                data.append(element)
+        return data
