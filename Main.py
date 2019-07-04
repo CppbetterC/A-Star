@@ -118,15 +118,18 @@ if __name__ == '__main__':
     # data_set10 = node[18000::]
 
     p1 = mp.Process(target=job, args=(data_set1, node, 1))
-    # p2 = mp.Process(target=job, args=(data_set2, node, dimension_type, location, dimension, 2))
-    # p3 = mp.Process(target=job, args=(data_set3, node, dimension_type, location, dimension, 3))
-    # p4 = mp.Process(target=job, args=(data_set4, node, dimension_type, location, dimension, 4))
-    # p5 = mp.Process(target=job, args=(data_set5, node, dimension_type, location, dimension, 5))
-    # p6 = mp.Process(target=job, args=(data_set6, node, dimension_type, location, dimension, 6))
-    # p7 = mp.Process(target=job, args=(data_set7, node, dimension_type, location, dimension, 7))
-    # p8 = mp.Process(target=job, args=(data_set8, node, dimension_type, location, dimension, 8))
-    # p9 = mp.Process(target=job, args=(data_set9, node, dimension_type, location, dimension, 9))
-    # p10 = mp.Process(target=job, args=(data_set10, node, dimension_type, location, dimension, 10))
+    # p2 = mp.Process(target=job, args=(data_set2, node, 2))
+    # p3 = mp.Process(target=job, args=(data_set3, node, 3))
+    # p4 = mp.Process(target=job, args=(data_set4, node, 4))
+    # p5 = mp.Process(target=job, args=(data_set5, node, 5))
+    # p6 = mp.Process(target=job, args=(data_set6, node, 6))
+    # p7 = mp.Process(target=job, args=(data_set7, node, 7))
+    # p8 = mp.Process(target=job, args=(data_set8, node, 8))
+    # p9 = mp.Process(target=job, args=(data_set9, node, 9))
+    # p10 = mp.Process(target=job, args=(data_set10, node, 10))
+
+
+
 
     p1.start()
     # p2.start()
