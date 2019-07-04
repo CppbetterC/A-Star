@@ -107,48 +107,48 @@ if __name__ == '__main__':
     # data_set7, data_set8, data_set9, data_set10 = ([] for _ in range(10))
 
     data_set1 = node[0: 1000]
-    # data_set2 = node[1000: 2000]
-    # data_set3 = node[2000::]
-    # data_set4 = node[6000: 8000]
-    # data_set5 = node[8000: 10000]
-    # data_set6 = node[10000: 12000]
-    # data_set7 = node[12000: 14000]
-    # data_set8 = node[14000: 16000]
-    # data_set9 = node[16000: 18000]
-    # data_set10 = node[18000::]
+    data_set2 = node[1000: 2000]
+    data_set3 = node[2000::]
+    data_set4 = node[6000: 8000]
+    data_set5 = node[8000: 10000]
+    data_set6 = node[10000: 12000]
+    data_set7 = node[12000: 14000]
+    data_set8 = node[14000: 16000]
+    data_set9 = node[16000: 18000]
+    data_set10 = node[18000::]
 
     p1 = mp.Process(target=job, args=(data_set1, node, 1))
-    # p2 = mp.Process(target=job, args=(data_set2, node, 2))
-    # p3 = mp.Process(target=job, args=(data_set3, node, 3))
-    # p4 = mp.Process(target=job, args=(data_set4, node, 4))
-    # p5 = mp.Process(target=job, args=(data_set5, node, 5))
-    # p6 = mp.Process(target=job, args=(data_set6, node, 6))
-    # p7 = mp.Process(target=job, args=(data_set7, node, 7))
-    # p8 = mp.Process(target=job, args=(data_set8, node, 8))
-    # p9 = mp.Process(target=job, args=(data_set9, node, 9))
-    # p10 = mp.Process(target=job, args=(data_set10, node, 10))
+    p2 = mp.Process(target=job, args=(data_set2, node, 2))
+    p3 = mp.Process(target=job, args=(data_set3, node, 3))
+    p4 = mp.Process(target=job, args=(data_set4, node, 4))
+    p5 = mp.Process(target=job, args=(data_set5, node, 5))
+    p6 = mp.Process(target=job, args=(data_set6, node, 6))
+    p7 = mp.Process(target=job, args=(data_set7, node, 7))
+    p8 = mp.Process(target=job, args=(data_set8, node, 8))
+    p9 = mp.Process(target=job, args=(data_set9, node, 9))
+    p10 = mp.Process(target=job, args=(data_set10, node, 10))
 
 
 
 
     p1.start()
-    # p2.start()
-    # p3.start()
-    # p4.start()
-    # p5.start()
-    # p6.start()
-    # p7.start()
-    # p8.start()
-    # p9.start()
-    # p10.start()
+    p2.start()
+    p3.start()
+    p4.start()
+    p5.start()
+    p6.start()
+    p7.start()
+    p8.start()
+    p9.start()
+    p10.start()
 
     p1.join()
-    # p2.join()
-    # p3.join()
-    # p4.join()
-    # p5.join()
-    # p6.join()
-    # p7.join()
-    # p8.join()
-    # p9.join()
-    # p10.join()
+    p2.join()
+    p3.join()
+    p4.join()
+    p5.join()
+    p6.join()
+    p7.join()
+    p8.join()
+    p9.join()
+    p10.join()
