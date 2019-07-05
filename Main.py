@@ -68,9 +68,13 @@ def job(data, all_node, city, heuristic_matrices, pname):
 if __name__ == '__main__':
     # 基本設定
     """
+    # 基本設定
     # Dimension: 目前執行的實驗有多少維度
     # city: 城市名稱(Oldenburg, California, North America)
-    # 
+    
+    1. 要改地點(city)和維度名稱(dimension)
+    2. 資料數量的分配情況
+    
     """
 
     # 載入路網節點
