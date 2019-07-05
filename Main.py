@@ -1,135 +1,107 @@
 import sys
+import numpy as np
+import pandas as pd
 import random
 import timeit
 import multiprocessing as mp
+
+from sklearn.metrics.pairwise import euclidean_distances
 
 from AStar import Astar
 from LoadData import LoadData
 from Export import Export
 
-"""
-Implement the a-star-algorithm to find the path
-Enter the src and dst to get the different results
-"""
 
-
-# def test(src, dst):
-#     """
-#     測試 A* 演算法
-#     單起點，單終點
-#     :param src: 起點節點名稱
-#     :param dst: 終點節點名稱
-#     :return: 路徑 ID
-#     """
-#     algorithm = Astar(src, dst, dimension_type, location, dimension)
-#     path = algorithm.algorithm()
-#     if not bool(path):
-#         data = []
-#         print('data', data)
-#     else:
-#         data = path
-#         print('data', data.id)
-
-
-def job(data, all_node, name):
+def calculate_heuristic(city):
     """
-    多起點多終點的 A* 路徑查詢
-    # 加入只搜尋部分的條件
-    # 原始的查詢為 n**n 次
-    # 現在改為 n**50
-    # 並加入時間的條件，超過搜尋時間捨棄此查詢
-    :param data: 起點陣列
-    :param all_node:終點陣列
-    :param name: 多線程的編號
+    計算 heuristic matrices
+    :param city:
     :return:
     """
-    print('<---Processing ' + str(name) + ' start--->')
+    org_node = LoadData.load_org_node(city)
+    data = np.array(list(org_node.values()))
+    result = euclidean_distances(data, data)
+    header = [x for x in list(org_node.keys())]
+    pd_data = pd.DataFrame(result, columns=header)
+    # print(pd_data.shape)
+    return pd_data
+
+
+def job(data, all_node, city, heuristic_matrices, pname):
+    """
+    :param data: 起點陣列
+    :param all_node:終點陣列
+    :param heuristic_matrices:
+    :param pname: 多線程的編號
+    :return:
+    """
+    print('<---Processing ' + str(pname) + ' start--->')
+    """
     # 基本設定
-    city = 'California'
-    # dimemsion = ["Distance", "Time"]
-    dimension = "Distance"
+    dimension = [Distance, TIme, Dimension3, Dimension4, Dimension5, Dimension6]
+    """
+    dimension = "Dimension3"
     adjacency_list = LoadData.load_linking_table(city)
-    found_pair = LoadData.load_found_pair(city)
+    # found_pair = LoadData.load_found_pair(city)
     count = 0
-    byte_limit = 1024
+    byte_limit = 1024 * 2
     full_path = []
-
-    # limited_number = 5
-    # sub_all_node = random.sample(all_node, limited_number)
-
     for src in data:
         for dst in all_node:
-            if src == dst:
-                continue
-            if (src, dst) in found_pair:
-                continue
-
-            algorithm = Astar(src, dst, city, dimension, adjacency_list)
-            # path = algorithm.algorithm(
-            algorithm.query()
-            path = algorithm.get_shortest_path()
-            if not bool(path):
-                continue
-            full_path.append(tuple(path))
+            if src != dst:
+                algorithm = Astar(src, dst, city, dimension, adjacency_list, heuristic_matrices)
+                algorithm.query()
+                path = algorithm.get_shortest_path()
+                if bool(path):
+                    full_path.append(tuple(path))
 
         # 輸出檔案，依檔案大小分檔案
         if sys.getsizeof(full_path) >= byte_limit:
             Export.export_a_star(full_path, dimension, city, count)
             count += 1
             full_path = []
-        else:
-            continue
+
         print('<---Block', src, '--->')
-    print('<---End with ' + str(name), '--->')
+    print('<---End with ' + str(pname), '--->')
 
 
 if __name__ == '__main__':
+    # 基本設定
     """
-    Parameter
-    location = ['Oldenburg', 'California', 'North America']
-    dimension_type = ['distance', 'time']
-    Use the multiprocessing to run code
+    # Dimension: 目前執行的實驗有多少維度
+    # city: 城市名稱(Oldenburg, California, North America)
+    # 
     """
-    dimension = 2
 
-    # location = 'Oldenburg'
-    location = 'California'
-    # location = 'North America'
-
-    # dimension_type = 'distance'
-    # dimension_type = 'time'
-
-    org_node = LoadData.load_org_node(location)
-    node = list(org_node.keys())
+    # 載入路網節點
+    city = 'Oldenburg'
+    node = list(LoadData.load_org_node(city).keys())
+    heuristic_matrices = calculate_heuristic(city)
     print('終點數量', len(node))
 
-    # data_set1, data_set2, data_set3, data_set4, data_set5, data_set6, \
-    # data_set7, data_set8, data_set9, data_set10 = ([] for _ in range(10))
+    # 切分路網節點
+    data_set1 = node[0: 600]
+    data_set2 = node[600: 1200]
+    data_set3 = node[1200: 1800]
+    data_set4 = node[1800: 2400]
+    data_set5 = node[2400: 3000]
+    data_set6 = node[3000: 3600]
+    data_set7 = node[3600: 4200]
+    data_set8 = node[4200: 4800]
+    data_set9 = node[4800: 5400]
+    data_set10 = node[5400::]
 
-    data_set1 = node[0: 1000]
-    data_set2 = node[1000: 2000]
-    data_set3 = node[2000::]
-    data_set4 = node[6000: 8000]
-    data_set5 = node[8000: 10000]
-    data_set6 = node[10000: 12000]
-    data_set7 = node[12000: 14000]
-    data_set8 = node[14000: 16000]
-    data_set9 = node[16000: 18000]
-    data_set10 = node[18000::]
-
-    p1 = mp.Process(target=job, args=(data_set1, node, 1))
-    p2 = mp.Process(target=job, args=(data_set2, node, 2))
-    p3 = mp.Process(target=job, args=(data_set3, node, 3))
-    p4 = mp.Process(target=job, args=(data_set4, node, 4))
-    p5 = mp.Process(target=job, args=(data_set5, node, 5))
-    p6 = mp.Process(target=job, args=(data_set6, node, 6))
-    p7 = mp.Process(target=job, args=(data_set7, node, 7))
-    p8 = mp.Process(target=job, args=(data_set8, node, 8))
-    p9 = mp.Process(target=job, args=(data_set9, node, 9))
-    p10 = mp.Process(target=job, args=(data_set10, node, 10))
-
-
-
+    # 加入多線程排程
+    p1 = mp.Process(target=job, args=(data_set1, node, city, heuristic_matrices, 1))
+    p2 = mp.Process(target=job, args=(data_set2, node, city, heuristic_matrices, 2))
+    p3 = mp.Process(target=job, args=(data_set3, node, city, heuristic_matrices, 3))
+    p4 = mp.Process(target=job, args=(data_set4, node, city, heuristic_matrices, 4))
+    p5 = mp.Process(target=job, args=(data_set5, node, city, heuristic_matrices, 5))
+    p6 = mp.Process(target=job, args=(data_set6, node, city, heuristic_matrices, 6))
+    p7 = mp.Process(target=job, args=(data_set7, node, city, heuristic_matrices, 7))
+    p8 = mp.Process(target=job, args=(data_set8, node, city, heuristic_matrices, 8))
+    p9 = mp.Process(target=job, args=(data_set9, node, city, heuristic_matrices, 9))
+    p10 = mp.Process(target=job, args=(data_set10, node, city, heuristic_matrices, 10))
 
     p1.start()
     p2.start()

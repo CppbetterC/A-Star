@@ -26,8 +26,8 @@ class LoadData:
         abs_path = os.path.join(os.path.dirname(__file__), rel_path)
         with open(abs_path, 'r') as file_handle:
             for line in file_handle:
-                tmp = line.split(' ')
-                path[(int(tmp[1]), int(tmp[2]))] = (float(tmp[3]), float(tmp[4].strip()))
+                field = list(map(float, line.strip().split()))
+                path[(int(field[1]), int(field[2]))] = tuple(field[3::])
         return path
 
     @staticmethod

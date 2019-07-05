@@ -15,7 +15,7 @@ from LoadData import LoadData
 
 class Astar:
 
-    def __init__(self, src, dst, city, dimension, adjacency_list):
+    def __init__(self, src, dst, city, dimension, adjacency_list, heuristic_matrices):
         self.__src = src
         self.__dst = dst
         self.__city = city
@@ -25,10 +25,10 @@ class Astar:
         self.__dimension = self.__dimension_index(dimension)
 
         self.__org_node = LoadData.load_org_node(city)
-        self.__org_path = LoadData.load_org_path(city, 2)
-
+        self.__org_path = LoadData.load_org_path(city, 6)
         self.__link_table = adjacency_list
-        self.__heuristic = self.__calculate_heuristic()
+        self.__heuristic = heuristic_matrices
+        # self.__heuristic = self.__calculate_heuristic()
 
         self.__dimension_cost, self.__heuristic_cost, self.__total_cost = ({} for _ in range(3))
 
@@ -90,6 +90,14 @@ class Astar:
             idx = 0
         elif dimension == "Time":
             idx = 1
+        elif dimension == "Dimension3":
+            idx = 2
+        elif dimension == "Dimension4":
+            idx = 3
+        elif dimension == "Dimension5":
+            idx = 4
+        elif dimension == "Dimension6":
+            idx = 5
         else:
             print('Error')
         return idx
