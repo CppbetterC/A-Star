@@ -40,7 +40,7 @@ def job(data, all_node, city, heuristic_matrices, pname):
     # 基本設定
     dimension = [Distance, TIme, Dimension3, Dimension4, Dimension5, Dimension6]
     """
-    dimension = "Dimension3"
+    dimension = "Distance"
     adjacency_list = LoadData.load_linking_table(city)
     # found_pair = LoadData.load_found_pair(city)
     count = 0
