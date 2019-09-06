@@ -98,15 +98,15 @@ if __name__ == '__main__':
     print('number->', number)
     # x=input('Check')
 
-    data_set1 = not_found_node[0: 421523]
-    data_set2 = not_found_node[421523: 843046]
-    data_set3 = not_found_node[843046: 1264570]
-    data_set4 = not_found_node[1264570: 1686093]
-    data_set5 = not_found_node[1686093: 2107616]
-    data_set6 = not_found_node[2107616: 2529140]
-    data_set7 = not_found_node[2529140: 2950663]
-    data_set8 = not_found_node[2950663: 3372186]
-    data_set9 = not_found_node[3372186::]
+    data_set1 = not_found_node[0: 474213]
+    data_set2 = not_found_node[474213: 948427]
+    data_set3 = not_found_node[948427: 1422641]
+    data_set4 = not_found_node[1422641: 1896855]
+    data_set5 = not_found_node[1896855: 2371068]
+    data_set6 = not_found_node[2371068: 2845282]
+    data_set7 = not_found_node[2845282: 3319496]
+    data_set8 = not_found_node[3319496::]
+    # data_set9 = not_found_node[3372186::]
     # data_set10 = not_found_node[3414339::]
 
     # 加入多線程排程
@@ -118,7 +118,7 @@ if __name__ == '__main__':
     p6 = mp.Process(target=job, args=(data_set6, city, dimension, heuristic_matrices, 6))
     p7 = mp.Process(target=job, args=(data_set7, city, dimension, heuristic_matrices, 7))
     p8 = mp.Process(target=job, args=(data_set8, city, dimension, heuristic_matrices, 8))
-    p9 = mp.Process(target=job, args=(data_set9, city, dimension, heuristic_matrices, 9))
+    # p9 = mp.Process(target=job, args=(data_set9, city, dimension, heuristic_matrices, 9))
     # p10 = mp.Process(target=job, args=(data_set10, city, dimension, heuristic_matrices, 10))
 
     p1.start()
@@ -129,7 +129,7 @@ if __name__ == '__main__':
     p6.start()
     p7.start()
     p8.start()
-    p9.start()
+    # p9.start()
     # p10.start()
 
     p1.join()
@@ -140,5 +140,5 @@ if __name__ == '__main__':
     p6.join()
     p7.join()
     p8.join()
-    p9.join()
+    # p9.join()
     # p10.join()
