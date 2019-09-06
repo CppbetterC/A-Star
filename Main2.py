@@ -1,5 +1,5 @@
 """
-Original script (For Find the shortest path on the road network )
+Additional script (For Find the shortest path on the road network )
 """
 
 import sys
@@ -31,41 +31,34 @@ def calculate_heuristic(city):
     return pd_data
 
 
-def job(data, all_node, city, heuristic_matrices, pname):
+def job(data, city, dimension, heuristic_matrices, pname):
     """
     :param data: 起點陣列
-    :param all_node:終點陣列
     :param heuristic_matrices:
     :param pname: 多線程的編號
     :return:
     """
     print('<---Processing ' + str(pname) + ' start--->')
-    """
-    # 基本設定
-    dimension = [Distance, TIme, Dimension3, Dimension4, Dimension5, Dimension6]
-    """
-    dimension = "Distance"
+
     adjacency_list = LoadData.load_linking_table(city)
-    # found_pair = LoadData.load_found_pair(city)
     count = 0
     byte_limit = 1024 * 2
     full_path = []
-    for src in data:
-        for dst in all_node:
-            if src != dst:
-                algorithm = Astar(src, dst, city, dimension, adjacency_list, heuristic_matrices)
-                algorithm.query()
-                path = algorithm.get_shortest_path()
-                if bool(path):
-                    full_path.append(tuple(path))
 
-        # 輸出檔案，依檔案大小分檔案
-        if sys.getsizeof(full_path) >= byte_limit:
-            Export.export_a_star(full_path, dimension, city, count)
-            count += 1
-            full_path = []
+    for (src, dst) in data:
+        if src != dst:
+            algorithm = Astar(src, dst, city, dimension, adjacency_list, heuristic_matrices)
+            algorithm.query()
+            path = algorithm.get_shortest_path()
+            if bool(path):
+                full_path.append(tuple(path))
 
-        print('<---Block', src, '--->')
+            # 輸出檔案，依檔案大小分檔案
+            if sys.getsizeof(full_path) >= byte_limit:
+                Export.export_a_star(full_path, dimension, city, count)
+                count += 1
+                full_path = []
+
     print('<---End with ' + str(pname), '--->')
 
 
@@ -75,10 +68,10 @@ if __name__ == '__main__':
     # 基本設定
     # Dimension: 目前執行的實驗有多少維度
     # city: 城市名稱(Oldenburg, California, North America)
-    
+
     1. 要改地點(city)和維度名稱(dimension)
     2. 資料數量的分配情況
-    
+
     """
 
     # 載入路網節點
@@ -87,17 +80,34 @@ if __name__ == '__main__':
     heuristic_matrices = calculate_heuristic(city)
     print('終點數量', len(node))
 
-    # 切分路網節點
-    data_set1 = node[0: 600]
-    data_set2 = node[600: 1200]
-    data_set3 = node[1200: 1800]
-    data_set4 = node[1800: 2400]
-    data_set5 = node[2400: 3000]
-    data_set6 = node[3000: 3600]
-    data_set7 = node[3600: 4200]
-    data_set8 = node[4200: 4800]
-    data_set9 = node[4800: 5400]
-    data_set10 = node[5400::]
+    # 要重新收集的最段路徑維度資料(要修改)
+    # file_name = ['NotFoundNode(Distance)', 'NotFoundNode(Time)',
+    #              'NotFoundNode(Dimension3)', 'NotFoundNode(Dimension4)',
+    #              'NotFoundNode(Dimension5)', 'NotFoundNode(Dimension6)']
+
+    """
+    # 基本設定
+    dimension = [Distance, TIme, Dimension3, Dimension4, Dimension5, Dimension6]
+    dimension 需要改
+    """
+    dimension = "Time"
+    file_name = 'data/Oldenburg/NotFoundNode/NotFoundNode(' + dimension + ').txt'
+
+    not_found_node = LoadData.load_not_found_node(file_name)
+    number = len(not_found_node)
+    print('number->', number)
+    x=input('Check')
+
+    data_set1 = node[0: 379371]
+    data_set2 = node[379371: 758742]
+    data_set3 = node[758742: 1138113]
+    data_set4 = node[1138113: 1517484]
+    data_set5 = node[1517484: 1896855]
+    data_set6 = node[1896855: 2276226]
+    data_set7 = node[2276226: 2655597]
+    data_set8 = node[2655597: 3034968]
+    data_set9 = node[3034968: 3414339]
+    data_set10 = node[3414339::]
 
     # 加入多線程排程
     p1 = mp.Process(target=job, args=(data_set1, node, city, heuristic_matrices, 1))

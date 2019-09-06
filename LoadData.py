@@ -3,6 +3,7 @@ Load the road network
 """
 
 import os
+import ast
 from ast import literal_eval as make_tuple
 
 
@@ -50,3 +51,16 @@ class LoadData:
                 element = make_tuple(line)
                 data.append(element)
         return data
+
+    @staticmethod
+    def load_not_found_node(path):
+        result = []
+        with open(path, 'r', encoding='utf-8') as file_handle:
+            for line in file_handle:
+                try:
+                    line = ast.literal_eval(line)
+                except SyntaxError:
+                    continue
+                result.append(line)
+        return result
+
