@@ -33,6 +33,7 @@ class LoadData:
 
     @staticmethod
     def load_linking_table(location):
+        print(location)
         rel_path = 'data/'+location+'/LinkTable.txt'
         abs_path = os.path.join(os.path.dirname(__file__), rel_path)
         data = {}
@@ -57,10 +58,6 @@ class LoadData:
         result = []
         with open(path, 'r', encoding='utf-8') as file_handle:
             for line in file_handle:
-                try:
-                    line = ast.literal_eval(line)
-                except SyntaxError:
-                    continue
-                result.append(line)
+                result.append(ast.literal_eval(line))
         return result
 

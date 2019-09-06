@@ -90,36 +90,36 @@ if __name__ == '__main__':
     dimension = [Distance, TIme, Dimension3, Dimension4, Dimension5, Dimension6]
     dimension 需要改
     """
-    dimension = "Time"
+    dimension = "Distance"
     file_name = 'data/Oldenburg/NotFoundNode/NotFoundNode(' + dimension + ').txt'
 
     not_found_node = LoadData.load_not_found_node(file_name)
     number = len(not_found_node)
     print('number->', number)
-    x=input('Check')
+    # x=input('Check')
 
-    data_set1 = node[0: 379371]
-    data_set2 = node[379371: 758742]
-    data_set3 = node[758742: 1138113]
-    data_set4 = node[1138113: 1517484]
-    data_set5 = node[1517484: 1896855]
-    data_set6 = node[1896855: 2276226]
-    data_set7 = node[2276226: 2655597]
-    data_set8 = node[2655597: 3034968]
-    data_set9 = node[3034968: 3414339]
-    data_set10 = node[3414339::]
+    data_set1 = not_found_node[0: 379371]
+    data_set2 = not_found_node[379371: 758742]
+    data_set3 = not_found_node[758742: 1138113]
+    data_set4 = not_found_node[1138113: 1517484]
+    data_set5 = not_found_node[1517484: 1896855]
+    data_set6 = not_found_node[1896855: 2276226]
+    data_set7 = not_found_node[2276226: 2655597]
+    data_set8 = not_found_node[2655597: 3034968]
+    data_set9 = not_found_node[3034968: 3414339]
+    data_set10 = not_found_node[3414339::]
 
     # 加入多線程排程
-    p1 = mp.Process(target=job, args=(data_set1, node, city, heuristic_matrices, 1))
-    p2 = mp.Process(target=job, args=(data_set2, node, city, heuristic_matrices, 2))
-    p3 = mp.Process(target=job, args=(data_set3, node, city, heuristic_matrices, 3))
-    p4 = mp.Process(target=job, args=(data_set4, node, city, heuristic_matrices, 4))
-    p5 = mp.Process(target=job, args=(data_set5, node, city, heuristic_matrices, 5))
-    p6 = mp.Process(target=job, args=(data_set6, node, city, heuristic_matrices, 6))
-    p7 = mp.Process(target=job, args=(data_set7, node, city, heuristic_matrices, 7))
-    p8 = mp.Process(target=job, args=(data_set8, node, city, heuristic_matrices, 8))
-    p9 = mp.Process(target=job, args=(data_set9, node, city, heuristic_matrices, 9))
-    p10 = mp.Process(target=job, args=(data_set10, node, city, heuristic_matrices, 10))
+    p1 = mp.Process(target=job, args=(data_set1, city, dimension, heuristic_matrices, 1))
+    p2 = mp.Process(target=job, args=(data_set2, city, dimension, heuristic_matrices, 2))
+    p3 = mp.Process(target=job, args=(data_set3, city, dimension, heuristic_matrices, 3))
+    p4 = mp.Process(target=job, args=(data_set4, city, dimension, heuristic_matrices, 4))
+    p5 = mp.Process(target=job, args=(data_set5, city, dimension, heuristic_matrices, 5))
+    p6 = mp.Process(target=job, args=(data_set6, city, dimension, heuristic_matrices, 6))
+    p7 = mp.Process(target=job, args=(data_set7, city, dimension, heuristic_matrices, 7))
+    p8 = mp.Process(target=job, args=(data_set8, city, dimension, heuristic_matrices, 8))
+    p9 = mp.Process(target=job, args=(data_set9, city, dimension, heuristic_matrices, 9))
+    p10 = mp.Process(target=job, args=(data_set10, city, dimension, heuristic_matrices, 10))
 
     p1.start()
     p2.start()
