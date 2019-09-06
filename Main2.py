@@ -42,7 +42,7 @@ def job(data, city, dimension, heuristic_matrices, pname):
 
     adjacency_list = LoadData.load_linking_table(city)
     count = 0
-    byte_limit = 1024 * 2
+    byte_limit = 1024 * 20
     full_path = []
 
     for (src, dst) in data:
