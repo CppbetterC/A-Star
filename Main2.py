@@ -90,7 +90,7 @@ if __name__ == '__main__':
     dimension = [Distance, TIme, Dimension3, Dimension4, Dimension5, Dimension6]
     dimension 需要改
     """
-    dimension = "Distance"
+    dimension = "Time"
     file_name = 'data/Oldenburg/NotFoundNode/NotFoundNode(' + dimension + ').txt'
 
     not_found_node = LoadData.load_not_found_node(file_name)
@@ -98,16 +98,16 @@ if __name__ == '__main__':
     print('number->', number)
     # x=input('Check')
 
-    data_set1 = not_found_node[0: 379371]
-    data_set2 = not_found_node[379371: 758742]
-    data_set3 = not_found_node[758742: 1138113]
-    data_set4 = not_found_node[1138113: 1517484]
-    data_set5 = not_found_node[1517484: 1896855]
-    data_set6 = not_found_node[1896855: 2276226]
-    data_set7 = not_found_node[2276226: 2655597]
-    data_set8 = not_found_node[2655597: 3034968]
-    data_set9 = not_found_node[3034968: 3414339]
-    data_set10 = not_found_node[3414339::]
+    data_set1 = not_found_node[0: 421523]
+    data_set2 = not_found_node[421523: 843046]
+    data_set3 = not_found_node[843046: 1264570]
+    data_set4 = not_found_node[1264570: 1686093]
+    data_set5 = not_found_node[1686093: 2107616]
+    data_set6 = not_found_node[2107616: 2529140]
+    data_set7 = not_found_node[2529140: 2950663]
+    data_set8 = not_found_node[2950663: 3372186]
+    data_set9 = not_found_node[3372186::]
+    # data_set10 = not_found_node[3414339::]
 
     # 加入多線程排程
     p1 = mp.Process(target=job, args=(data_set1, city, dimension, heuristic_matrices, 1))
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     p7 = mp.Process(target=job, args=(data_set7, city, dimension, heuristic_matrices, 7))
     p8 = mp.Process(target=job, args=(data_set8, city, dimension, heuristic_matrices, 8))
     p9 = mp.Process(target=job, args=(data_set9, city, dimension, heuristic_matrices, 9))
-    p10 = mp.Process(target=job, args=(data_set10, city, dimension, heuristic_matrices, 10))
+    # p10 = mp.Process(target=job, args=(data_set10, city, dimension, heuristic_matrices, 10))
 
     p1.start()
     p2.start()
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     p7.start()
     p8.start()
     p9.start()
-    p10.start()
+    # p10.start()
 
     p1.join()
     p2.join()
@@ -141,4 +141,4 @@ if __name__ == '__main__':
     p7.join()
     p8.join()
     p9.join()
-    p10.join()
+    # p10.join()
